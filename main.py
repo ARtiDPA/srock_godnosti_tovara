@@ -1,5 +1,5 @@
-from threading import *
-from time import *
+from threading import * #библиотека для создания потоков
+from time import * #библиотека для работы со временем
 
 
 spisok_nazvania_tovara = []
@@ -28,7 +28,14 @@ def glavnoe_menu():
         vvod = int(input("ВВОД: "))
         if vvod == 1:
             for i in range(len(spisok_nazvania_tovara)):
-                print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]} СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]} ЕГО НОМЕР: {i}")
+                if i != 0:
+                    print("-------------------------------------------------------------------")
+                    print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]}; ЕГО НОМЕР: {i}")
+                    print("-------------------------------------------------------------------")
+                elif i==0:
+                    print("-------------------------------------------------------------------")
+                    print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: ПРОСРОЧЕН!!!!; ЕГО НОМЕР: {i}")
+                    print("-------------------------------------------------------------------")
         elif vvod == 2:
             print("Введите название товара:")
             nazvanie_tovara = input("СЮДА: ")
@@ -38,19 +45,23 @@ def glavnoe_menu():
             spisok_sroka_godnosi.append(srok_godnosti)
         elif vvod == 3:
             for i in range(len(spisok_nazvania_tovara)):
-                print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]} СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]} ЕГО НОМЕР: {i}")
+                print("-------------------------------------------------------------------")
+                print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]}; ЕГО НОМЕР: {i}")
+                print("-------------------------------------------------------------------")
             print("Введите номер товара который нужно удалить")
             nomer_index = int(input("ВВОД: "))
             spisok_nazvania_tovara.pop(nomer_index)
             spisok_sroka_godnosi.pop(nomer_index)
-            print("Вы успешно удалили")
+            print(f"Вы успешно удалили елемент")
         else:
             print("Такого варианта нету, введите другой ответ")
+
 def start():
     tr1 = Thread(target=timer, args=(0, 0, 0))
     tr2 = Thread(target=glavnoe_menu)
     tr2.start()
     tr1.start()
+
 
 if __name__=="__main__":
     start()
