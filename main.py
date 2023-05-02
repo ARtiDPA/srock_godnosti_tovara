@@ -15,8 +15,6 @@ def timer(sekunda,minuta,chas):
             sekunda = 0
         elif minuta == 60:
             minuta = 0
-            chas += 1
-        elif chas == 24:
             for i in range(len(spisok_sroka_godnosi)):
                 spisok_sroka_godnosi[i] -= 1
 
@@ -28,30 +26,30 @@ def glavnoe_menu():
         vvod = int(input("ВВОД: "))
         if vvod == 1:
             for i in range(len(spisok_nazvania_tovara)):
-                if i != 0:
+                if spisok_sroka_godnosi[i] != 0:
                     print("-------------------------------------------------------------------")
-                    print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]}; ЕГО НОМЕР: {i}")
+                    print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]//24} ;СКОЛЬКО ОСТАЛОСЬ ЧАСОВ: {spisok_sroka_godnosi[i]%24} ; ЕГО НОМЕР: {i+1}")
                     print("-------------------------------------------------------------------")
-                elif i==0:
+                elif spisok_sroka_godnosi[i]<=0:
                     print("-------------------------------------------------------------------")
-                    print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: ПРОСРОЧЕН!!!!; ЕГО НОМЕР: {i}")
+                    print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; !!!ВНИМАНИЕ ТОВАР ПРОСРОЧЕН!!!!; ЕГО НОМЕР: {i+1}")
                     print("-------------------------------------------------------------------")
         elif vvod == 2:
             print("Введите название товара:")
             nazvanie_tovara = input("СЮДА: ")
-            print("Введите через сколько закончиться его срок годности в днях:")
+            print("Введите через сколько закончиться его срок годности в часах:")
             srok_godnosti = int(input("СЮДА:"))
             spisok_nazvania_tovara.append(nazvanie_tovara)
             spisok_sroka_godnosi.append(srok_godnosti)
         elif vvod == 3:
             for i in range(len(spisok_nazvania_tovara)):
                 print("-------------------------------------------------------------------")
-                print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]}; ЕГО НОМЕР: {i}")
+                print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; СКОЛЬКО ДНЕЙ ОСТАЛОСЬ: {spisok_sroka_godnosi[i]}; ЕГО НОМЕР: {i+1}")
                 print("-------------------------------------------------------------------")
             print("Введите номер товара который нужно удалить")
             nomer_index = int(input("ВВОД: "))
-            spisok_nazvania_tovara.pop(nomer_index)
-            spisok_sroka_godnosi.pop(nomer_index)
+            spisok_nazvania_tovara.pop(nomer_index-1)
+            spisok_sroka_godnosi.pop(nomer_index-1)
             print(f"Вы успешно удалили елемент")
         else:
             print("Такого варианта нету, введите другой ответ")
