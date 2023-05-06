@@ -34,6 +34,7 @@ def glavnoe_menu(): #Меню управлением всей системой
                     print("-------------------------------------------------------------------")
                     print(f"НАЗВАНИЕ ТОВАРА: {spisok_nazvania_tovara[i]}; !!!ВНИМАНИЕ ТОВАР ПРОСРОЧЕН!!!!; ЕГО НОМЕР: {i+1}")
                     print("-------------------------------------------------------------------")
+
         elif vvod == 2:
             print("Введите название товара:")
             nazvanie_tovara = input("СЮДА: ")
@@ -41,10 +42,9 @@ def glavnoe_menu(): #Меню управлением всей системой
             srok_godnosti = int(input("СЮДА:"))
             spisok_nazvania_tovara.append(nazvanie_tovara)
             spisok_sroka_godnosi.append(srok_godnosti)
-            file = open("Podgruzaema_pamat" , "a")
-            file.write(nazvanie_tovara + "\n")
-            file.write(str(srok_godnosti) + "\n")
-
+            with open("Podgruzaema_pamat", "a") as file:
+                file.write(nazvanie_tovara + "\n")
+                file.write(str(srok_godnosti) + "\n")
 
         elif vvod == 3:
             for i in range(len(spisok_nazvania_tovara)):
@@ -55,19 +55,25 @@ def glavnoe_menu(): #Меню управлением всей системой
             nomer_index = int(input("ВВОД: "))
             spisok_nazvania_tovara.pop(nomer_index-1)
             spisok_sroka_godnosi.pop(nomer_index-1)
+            with open("Podgruzaema_pamat", "r") as file:
+                lines = file.readlines()
+            lines.pop(nomer_index-1)
+            lines.pop(nomer_index)
+            with open("Podgruzaema_pamat") as file:
+                file.writelines(lines)
         else:
             print("Такого варианта нету, введите другой ответ")
 
 def start(): #Перенесение из тектового документа в масив во время, и запуск потоков
-    file = open("Podgruzaema_pamat", "r")
-    lines = file.read().splitlines()
+    with open("Podgruzaema_pamat", "r") as file:
+        lines = file.readlines()
     for i in range(len(lines)):
         if i%2 != 0:
-            print(lines[i].strip())
+            print(f"НАЗВАНИЕ - {lines[i].strip()}")
             vrem_peremena = int(lines[i].strip())
             spisok_sroka_godnosi.append(vrem_peremena)
         elif i%2 == 0:
-            print(lines[i].strip())
+            print(f"ЧАСОВ - {lines[i].strip()}")
             vrem_peremena = lines[i].strip()
             spisok_nazvania_tovara.append(vrem_peremena)
     file.close()
@@ -76,10 +82,10 @@ def start(): #Перенесение из тектового документа 
 def zapusk_programma(): # Запуск 2 потоков
     tr1 = Thread(target=timer, args=(0, 0))
     tr2 = Thread(target=glavnoe_menu)
-    tr2.start()
-    tr1.start()
+    tr2.start() #запуск потока с таймером
+    tr1.start() #запуск потока с меню управлением
 
-if __name__=="__main__":
+if __name__=="__main__": #Проверка чтобы избежить ошибок
     start()
 else:
     print("Это главный файл :( ")
