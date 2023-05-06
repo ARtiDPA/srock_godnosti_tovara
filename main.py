@@ -6,7 +6,7 @@ spisok_nazvania_tovara = []
 spisok_sroka_godnosi = []
 
 
-def timer(sekunda,minuta):
+def timer(sekunda,minuta): # Блок с таймером
     while True:
         sleep(1)
         sekunda+=1
@@ -18,7 +18,7 @@ def timer(sekunda,minuta):
             for i in range(len(spisok_sroka_godnosi)):
                 spisok_sroka_godnosi[i] -= 1
 
-def glavnoe_menu():
+def glavnoe_menu(): #Меню управлением всей системой
     while True:
         print("введите 1 чтобы увидить список товара с его сроком годности")
         print("введите 2 чтобы добавить новый объект")
@@ -58,7 +58,7 @@ def glavnoe_menu():
         else:
             print("Такого варианта нету, введите другой ответ")
 
-def start():
+def start(): #Перенесение из тектового документа в масив во время, и запуск потоков
     file = open("Podgruzaema_pamat", "r")
     lines = file.read().splitlines()
     for i in range(len(lines)):
@@ -73,7 +73,7 @@ def start():
     file.close()
     zapusk_programma()
 
-def zapusk_programma():
+def zapusk_programma(): # Запуск 2 потоков
     tr1 = Thread(target=timer, args=(0, 0))
     tr2 = Thread(target=glavnoe_menu)
     tr2.start()
